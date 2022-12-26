@@ -1,0 +1,66 @@
+
+@font-face {
+	font-family : "DM-Mono";
+	src : url("media/dm-mono.ttf") format("truetype");
+}
+
+body {
+	color : black;
+	background-color : #f0f1f2;
+	font-family : "DM-Mono", monospace;
+}
+
+a {
+	color : black !important;
+	cursor : pointer;
+}
+
+a:hover {
+	color : #347ff7 !important;
+}
+
+#navbar {
+	width : 70%;
+	height : 30px;
+	margin : 0 auto;
+	flex-direction : row;
+	align-items : center;
+	font-size : 18px;
+	padding-top : 15px;
+}
+
+#navbar a {
+	float : right;
+	margin-left : 2%;
+	margin-right : 2%;
+	text-decoration : none;
+}
+
+#navbar img {
+	max-width : 28px;
+	max-height : 28px;
+}
+
+#navbar #title {
+	float : left;
+}
+
+#navbar-seperation {
+	width : 70%;
+}
+
+#content {
+	width : 70%;
+	margin : 0 auto;
+}
+
+#article {
+	height : auto;
+	overflow : hidden;
+}
+
+#article #date {
+	float : left;
+	color : #878787;
+	margin-right : 2%;
+}
