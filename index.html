@@ -3,7 +3,7 @@
 
 	<head>
 		<meta name="viewport" content="width=device-width; initial-scale=1"/>
-		<link rel="stylesheet" href="frontend/theme.css"/>
+		<link rel="stylesheet" href="frontend/css/theme.css"/>
 		<title> Some thoughts </title>
 	</head>
 
@@ -12,16 +12,65 @@
 			<div id="navbar">
 				<a href="index.html" id="title"> Some thoughts </a>
 				<a href="https://github.com/aabiji">
-					<img src="frontend/media/github-logo.png">
+					<img src="frontend/imgs/github-logo.png">
 				</a>
-				<a href="frontend/archive.html"> Archive </a>
+				<a href="archive.html"> Archive </a>
 			</div>
 			<hr id="navbar-seperation">
 		</div>
 
-		<div id="content">
-			<p> Home </p>
+		<div id="intro">
+			<img src="frontend/imgs/avatar.jpeg">
+			<h1> Hey, I'm Abigail! &#x1F44B; </h1>
+			<p> This is where I write about my thoughts, opinions and projects I'm working on. 
+				All of my opinions are my own and I'm by no means an expert in anything, constantly
+				learning, so don't take me too seriously. 
+			</p>
+			<hr>
 		</div>
-	</body>
 
+		<div id="projects">
+			<h3> Some projects I've built: </h3>
+
+			<div id="project">
+				<a href="https://github.com/aabiji/adventofcode">adventofcode</a>
+				<p> A monorepo of my Advent of code solutions </p>
+			</div>
+			
+			<div id="project">
+				<a href="https://github.com/aabiji/blog">blog</a>
+				<p> my blog </p>
+			</div>
+
+			<div id="project">
+				<a href="https://github.com/aabiji/chippy">chippy</a>
+				<p> A chip 8 interpreter </p>
+			</div>
+			
+			<hr>
+		</div>
+
+		<div id="content">
+			<h3> Some of my writings </h3>
+
+			<div id="article">
+				<p id="date"> DATE </p>
+				<p><a id="title"> TITLE </a></p>
+			</div>
+
+			<hr>
+		</div>
+		
+		<div id="copyright">
+			<p id="msg"></p>
+		</div>
+
+		<script>
+			let date = new Date().getFullYear();
+			let msg_element = document.getElementById("msg");
+			let msg = `<a href='https://github.com/aabiji'>@aabiji</a> 2022 - ${date}`;
+			msg_element.innerHTML = msg;
+		</script>
+
+	</body>
 </html>

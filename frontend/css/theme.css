@@ -1,0 +1,109 @@
+@font-face {
+	font-family: "DM-Mono";
+	src: url("../fonts/dm-mono.ttf") format("truetype");
+}
+
+body {
+	color: black;
+	background-color: #f0f1f2;
+	font-size : 14px;
+	font-family: "DM-Mono", monospace;
+}
+
+a {
+	font-weight : bold;
+	cursor : pointer;
+	color: black !important;
+	text-decoration : none;
+}
+
+a:hover {
+	color: #347ff7 !important;
+}
+
+#navbar {
+	width: 70%;
+	height: 30px;
+	margin: 0 auto;
+	flex-direction: row;
+	align-items: center;
+	font-size: 18px;
+	padding-top: 15px;
+}
+
+#navbar a {
+	float: right;
+	margin-left: 2%;
+	margin-right: 2%;
+	text-decoration: none;
+}
+
+#navbar img {
+	max-width: 28px;
+	max-height: 28px;
+}
+
+#navbar #title {
+	float: left;
+}
+
+#navbar-seperation {
+	width: 70%;
+}
+
+#intro {
+	width : 45%;
+	margin : 0 auto;
+	padding : 20px 15px;
+}
+
+#intro img {
+	float : left;
+	border-radius : 20px;
+	max-width : 180px;
+	max-height : 180px;
+	margin-right : 3%;
+}
+
+#intro h1 {
+	font-size : 18px;
+}
+
+#intro hr {
+	margin-top : 50px;
+	margin-bottom : 0px;
+}
+
+#content, #projects {
+	width : 45%;
+	margin : 0 auto;
+}
+
+#featured, #projects h3 {
+	margin-top : 0;
+}
+
+#projects a {
+	float : left;
+	margin-right : 3%;
+}
+
+#copyright {
+	width : 15%;
+	margin : 0 auto;
+}
+
+#copyright a {
+	color : #878787 !important;
+}
+
+#article {
+	height : auto;
+	overflow : hidden;
+}
+
+#article #date {
+	float : left;
+	color : #878787;
+	margin-right : 3%;
+}
