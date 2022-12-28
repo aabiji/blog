@@ -27,7 +27,7 @@ It also creates a new html file given a template (assets/_template_.html).
 
 To render codeblocks, highlight.js is also linked as a cdn asset.
 
-Create a new blog article: blog new FILENAME title="TITLE"
+Create a new blog article: blog new FILENAME TITLE
 (the title argument is optional)
 
 Delete a blog article: blog delete BLOG_HASH
