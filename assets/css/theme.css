@@ -93,8 +93,13 @@ a:hover {
 	margin : 0 auto;
 }
 
-#copyright a {
+#copyright a, #msg {
 	color : #878787 !important;
+}
+
+#copyright-seperator {
+	margin : 0 auto;
+	width : 45%;
 }
 
 #article {

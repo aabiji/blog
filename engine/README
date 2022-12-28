@@ -1,0 +1,39 @@
+The blog engine
+---------------
+A command line utily that gives you the ability to create, delete and 
+update blog articles.
+This is custom, made specifically for my blog, but feel free to clone and 
+modify the source if you want.
+
+How it works
+------------
+index.html contains a projects and content div.
+When you execute engine.py, engine.py checks if 
+you've create any new github repos and will update the projects
+div accordingly.
+The content div is treated as a sort of ciruclar buffer and 
+it's updated when you "feature" a blog article.
+
+archive.html contains a content div. When you create or delete a blog article
+the <div id="article"> associated to it is updated accordingly. When you update 
+a blog article, the <p id="date"/> inside the <div id="article"> is updated to match 
+the date you updated the article.
+
+Creating a new blog article create a key (hash of the title and current date) to the 
+value of metadata about the article in the json database. The hash is used to identify 
+blog articles.
+Example: "foiaj38r892qu83jf8jaij98": {"date": "dd-mm-yyyy", "title":"", "path":""}
+It also creates a new html file given a template (assets/_template_.html).
+
+To render codeblocks, highlight.js is also linked as a cdn asset.
+
+Create a new blog article: blog new FILENAME title="TITLE"
+(the title argument is optional)
+
+Delete a blog article: blog delete BLOG_HASH
+
+Feature a blog article: blog feature BLOG_HASH
+
+List blogs: blog list
+Example output:
+HASH  ->  (TITLE, DATE, PATH)
