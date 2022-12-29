@@ -6,18 +6,19 @@
             Some thoughts
         </title>
     </head>
-    <body>
+    <body onload="update();" class="light">
         <div id="navbar-container">
             <div id="navbar">
                 <a href="index.html" id="title">
                     Some thoughts
                 </a>
                 <a href="https://github.com/aabiji">
-                    <img src="assets/imgs/github-logo.png"/>
+                    <img id="github-logo" src="assets/imgs/dark-logo.png"/>
                 </a>
                 <a href="archive.html">
                     Archive
                 </a>
+				<a id="theme_switch" onclick="toggleTheme();"></a>
             </div>
             <hr id="navbar-seperation"/>
         </div>
@@ -25,7 +26,7 @@
             <h3>
                 My writings
             </h3>
-            <div id="article">
+            <div class="article">
                 <p id="date">
                     27-12-2022
                 </p>

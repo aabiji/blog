@@ -4,21 +4,36 @@
 }
 
 body {
-	color: black;
-	background-color: #f0f1f2;
 	font-size : 14px;
 	font-family: "DM-Mono", monospace;
+}
+
+.light {
+	color : black !important;
+	background-color : #f0f1f2;
+}
+
+.dark {
+	color : white !important;
+	background-color : #1f1e1e;
+}
+
+.light a {
+	color : black;
+}
+
+.dark a {
+	color : white;
 }
 
 a {
 	font-weight : bold;
 	cursor : pointer;
-	color: black !important;
 	text-decoration : none;
 }
 
 a:hover {
-	color: #347ff7 !important;
+	color: #10c775 !important;
 }
 
 #navbar {
@@ -79,7 +94,7 @@ a:hover {
 	margin : 0 auto;
 }
 
-#featured, #projects h3 {
+#content, #projects h3 {
 	margin-top : 0;
 }
 
@@ -102,12 +117,12 @@ a:hover {
 	width : 45%;
 }
 
-#article {
+.article {
 	height : auto;
 	overflow : hidden;
 }
 
-#article #date {
+.article #date {
 	float : left;
 	color : #878787;
 	margin-right : 3%;
