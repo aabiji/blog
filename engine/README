@@ -1,0 +1,47 @@
+The blog engine
+----------------
+engine.py is the library for managing the blog.
+blog.py is the interactive cli tool to use the library in engine.py
+blog.sh is a shell script that wraps around blog.py
+
+
+Commands
+--------
+$ blog create FILENAME TITLE
+-> The TITLE is actually optional, if not specified, 
+   the FILENAME will be used as essay title.
+
+$ blog update FILENAME TITLE
+-> TITLE is used to index the blog article you want to update.
+   FILENAME specifies the changed essay source.
+
+$ blog remove TITLE
+-> Deletes the essay's generated html file, removes the blog article's key 
+   from the json database, and removes links to the blog article's html in index.html,
+   and archive.html.
+
+$ blog favorite TITLE
+-> This is for blog articles that should be showcased in the index.html
+   #content div. The value associated to the key is appended to favorites.json.
+   The #content div acts are a sort of circular buffer always having at most 5
+   articles in display. The #content div is updated with the essay.
+
+$ blog list
+-> Lists all the blog articles in blog.json.
+
+
+Blog database (assets/data/blog.json)
+----------------------------------------
+Hashmap of blog article metadata                       
+{                                                      
+	"articles": [{Title: {Date: "", Path: "", Title_hash: ""}}]
+	"favorites": [/* Same as articles */]
+	"projects_count": 0 /* Used for updating #projects in index.html
+} 
+
+* Date used in archive.html listing
+* Title used as blog article title
+* Path used to identify article's html file            
+  also used in index.html and archive.html as link     
+* Title hash used to identify div to decompose/update/favorite
+  when removing, marking as favorite and updating blog articles
