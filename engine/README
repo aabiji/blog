@@ -4,7 +4,6 @@ engine.py is the library for managing the blog.
 blog.py is the interactive cli tool to use the library in engine.py
 blog.sh is a shell script that wraps around blog.py
 
-
 Commands
 --------
 $ blog create FILENAME TITLE
@@ -18,13 +17,11 @@ $ blog update FILENAME TITLE
 $ blog remove TITLE
 -> Deletes the essay's generated html file, removes the blog article's key 
    from the json database, and removes links to the blog article's html in index.html,
-   and archive.html.
+   and archive.html. Also removes assets associated to the article (imgs, etc).
 
-$ blog favorite TITLE
+$ blog feature TITLE
 -> This is for blog articles that should be showcased in the index.html
-   #content div. The value associated to the key is appended to favorites.json.
-   The #content div acts are a sort of circular buffer always having at most 5
-   articles in display. The #content div is updated with the essay.
+   The blog article should already exist.
 
 $ blog list
 -> Lists all the blog articles in blog.json.
@@ -34,8 +31,8 @@ Blog database (assets/data/blog.json)
 ----------------------------------------
 Hashmap of blog article metadata                       
 {                                                      
-	"articles": [{Title: {Date: "", Path: "", Title_hash: ""}}]
-	"favorites": [/* Same as articles */]
+	"articles": {Title: {Date: "", Path: "", Title_hash: ""}}
+	"favorites": {/* Same as articles */}
 	"projects_count": 0 /* Used for updating #projects in index.html
 } 
 
@@ -44,4 +41,7 @@ Hashmap of blog article metadata
 * Path used to identify article's html file            
   also used in index.html and archive.html as link     
 * Title hash used to identify div to decompose/update/favorite
-  when removing, marking as favorite and updating blog articles
+  when removing, featuring and updating blog articles
+* When including assets in a blog article (images, etc), the images
+  are stored in assets/imgs. A md5 hash of the title_hash and the image
+  filename are used to identify the image.

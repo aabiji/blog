@@ -1,11 +1,13 @@
 My blog
 -------
-The source is liscenced under the MIT liscence, 
-and the essays are liscenced under creative commons.
+Source code for the blog's frontned (hosted on Github pages) 
+and the cli program I use to publish blog articles ( engine/ ).
+This source code for this project is custom, made specifically to 
+manage my blog, but the code should be pretty easy to modify for 
+your own purposes if you want.
 
-engine/ , contains what I dub "the blog engine (TBE)".
-Essensially a tool to create, update and delete blog posts and 
-update my website accordingly. View the readme there to see how it's
-structured.
+The essays are under the creative commons liscense, while the source
+code is under the MIT liscense.
 
-The rest should be self explanetory.
+P.S: In engine/ , I included a submodule for https://github.com/aabiji/mark.
+So make sure to clone recusively.
