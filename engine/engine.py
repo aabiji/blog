@@ -2,23 +2,12 @@ from mark import markdown
 from datetime import datetime
 from bs4 import BeautifulSoup
 import hashlib
+import re, os
 import requests
 import json
-import re
-import os
 
 class BlogEngine:
-    def __init__(self, filename: str, title=None):
-        self.filename = filename
-        self.title = title if title != None else filename.replace(".md", "")
-        self.title = self.title[0].upper() + self.title[1: ]
-
-        self.base_indent = 0
-        self.markdown_source = open(self.filename, "r").read()
-        self.markdown_compiler = markdown.Compiler(self.markdown_source, 
-            debug_lexer=False, debug_parser=False, prettify=True
-        )
-
+    def __init__(self):
         self.db_path = "../assets/data/blog.json"
         self.db = self.load_database()
 
@@ -45,7 +34,7 @@ class BlogEngine:
 
     def update_database(self):
         with open(self.db_path, "w") as file:
-            file.write(json.dumps(self.db))
+            file.write(json.dumps(self.db, indent=4))
 
     def write_html(self, filepath: str, dom_obj: BeautifulSoup):
         html = self.indent_regex.sub(r"\1" * self.indent, dom_obj.prettify())
@@ -108,25 +97,31 @@ class BlogEngine:
             self.write_html("../index.html", self.index_html)
 
     # If creating_entry=True, the value associated with it's key should be overwritten
-    def insert_entry(self, table: str, creating_entry: bool):
+    def insert_entry(self, title: str, filename: str, table: str, creating_entry: bool):
         # Resolving conflicts in blog article title
         iteration = 0
-        while self.title in self.db[table] and not creating_entry:
+        while title in self.db[table] and not creating_entry:
             iteration += 1
-            self.title = self.title.split("(")[0].rstrip() + f" ({iteration if iteration > 0 else ''})"
-            self.filename = self.filename.split("(")[0].rstrip() + f" ({iteration if iteration > 0 else ''})"
+            title = title.split("(")[0].rstrip() + f" ({iteration if iteration > 0 else ''})"
 
         date = datetime.today().strftime("%d-%m-%Y")
-        title_hash = hashlib.md5(self.title.encode("utf-8")).hexdigest()
+        title_hash = hashlib.md5(title.encode("utf-8")).hexdigest()
 
-        path = f"../essays/{self.title.replace(' ', '_')}.html"
-        html = self.markdown_compiler.compile(self.base_indent)
+        path = f"../essays/{title.replace(' ', '_')}.html"
+
+        if filename != "":
+            markdown_source = open(filename, "r").read()
+            markdown_compiler = markdown.Compiler(markdown_source, 
+                debug_lexer=False, debug_parser=False, prettify=True)
+            html = markdown_compiler.compile(base_indent=0)
+        else:
+            html = ""
 
         entry = {"date": date, "title_hash": title_hash, "path": path}
-        self.db[table][self.title] = entry
+        self.db[table][title] = entry
         self.update_database()
 
-        return self.title, entry, html
+        return title, entry, html
 
     def create_archive_entry(self, html: BeautifulSoup, title: str, entry: dict):
         article_div = html.new_tag("div", **{"class": "article"}, id=entry['title_hash'])
@@ -143,20 +138,6 @@ class BlogEngine:
 
         return article_div
 
-    # $ blog create FILENAME TITLE
-    def create_article(self):
-        title, entry, html = self.insert_entry("articles", False)
-
-        self.base_indent = 3
-        content_div = self.template_html.find("div", {"id": "content"})
-        content_div.append(BeautifulSoup(html, "html.parser"))
-        self.write_html(f"../essays/{self.title}.html", self.template_html)
-
-        archive_content_div = self.archive_html.find("div", {"id":"content"})
-        archive_content_div.append(self.create_archive_entry(self.archive_html, title, entry))
-
-        self.write_html("../archive.html", self.archive_html)
-
     def update_article_listing(self, html: BeautifulSoup, title: str, entry: dict):
         previous_article_div = html.find("div", {"id": entry['title_hash']})
         previous_article_div.decompose()
@@ -171,65 +152,6 @@ class BlogEngine:
         content_div.insert(1, new_h3)
 
         self.write_html("../archive.html", html)
-
-    # $ blog update FILENAME TITLE
-    def update_article(self):
-        if self.title not in self.db['articles']:
-            print(f"Article not found: {self.title}")
-            return
-
-        title, entry, html = self.insert_entry("articles", True)
-        if self.title in self.db['featured']:
-            self.insert_entry("featured", True)
-
-        archive_content_div = self.archive_html.find("div", {"id": "content"})
-        index_content_div = self.index_html.find("div", {"id": "content"})
-        
-        if len(archive_content_div.find_all("div", {"id": entry["title_hash"]})) > 0:
-            self.update_article_listing(self.archive_html, title, entry)
-
-        if len(index_content_div.find_all("div", {"id": entry["title_hash"]})) > 0:
-            self.update_article_listing(self.index_html, title, entry)
-
-    # $ blog remove TITLE
-    def remove_article(self):
-        if self.title not in self.db['articles']:
-            print(f"Article not found: {self.title}")
-            return
-
-        entry = self.db['articles'][self.title]
-
-        if len(self.archive_html.find_all("div", {"id": entry['title_hash']})) > 0:
-            archive_entry_div = self.archive_html.find("div", {"id": entry['title_hash']})
-            archive_entry_div.decompose()
-            self.write_html("../archive.html", self.archive_html)
-
-        # If article has been marked as favorite
-        if len(self.index_html.find_all("div", {"id": entry['title_hash']})) > 0:
-            index_entry_div = self.index_html.find("div", {"id": entry['title_hash']})
-            index_entry_div.decompose()
-            self.write_html("../index.html", self.index_html)
-
-        # Remove assets associated with it
-        os.remove(entry['path'])
-
-        del self.db['articles'][self.title]
-        if self.title in self.db['featured']:
-            del self.db['featured'][self.title]
-
-        self.update_database()
-   
-    # $ blog feature TITLE
-    # Like creating a blog article, except the html file for the article is already present
-    def feature_article(self):
-        if self.title not in self.db['articles']:
-            print(f"Article not found: {self.title}")
-            return
-
-        title, entry, html = self.insert_entry("featured", False)
-        index_html_content_div = self.index_html.find("div", {"id": "content"})
-        index_html_content_div.append(self.create_archive_entry(self.index_html, title, entry))
-        self.write_html("../index.html", self.index_html)
 
     def list_table(self, table: str):
         print(" " * 15, "-" * 15, table[0].upper() + table[1:], "-" * 15)
@@ -248,8 +170,83 @@ class BlogEngine:
 
         print()
 
+    # $ blog create FILENAME TITLE
+    def create_article(self, filename: str, title: str):
+        title, entry, html = self.insert_entry(title, filename, "articles", False)
+
+        content_div = self.template_html.find("div", {"id": "content"})
+        content_div.append(BeautifulSoup(html, "html.parser"))
+        self.write_html(entry['path'], self.template_html)
+
+        archive_content_div = self.archive_html.find("div", {"id":"content"})
+        archive_content_div.append(self.create_archive_entry(self.archive_html, title, entry))
+
+        self.write_html("../archive.html", self.archive_html)
+
+    # $ blog update FILENAME TITLE
+    def update_article(self, filename: str, title: str):
+        if title not in self.db['articles']:
+            print(f"Article not found: {title}")
+            return
+
+        title, entry, html = self.insert_entry(title, filename, "articles", True)
+        if title in self.db['featured']:
+            self.insert_entry(title, filename, "featured", True)
+
+        content_div = self.template_html.find("div", {"id": "content"})
+        content_div.append(BeautifulSoup(html, "html.parser"))
+        self.write_html(entry['path'], self.template_html)
+
+        archive_content_div = self.archive_html.find("div", {"id": "content"})
+        index_content_div = self.index_html.find("div", {"id": "content"})
+        
+        if len(archive_content_div.find_all("div", {"id": entry["title_hash"]})) > 0:
+            self.update_article_listing(self.archive_html, title, entry)
+
+        if len(index_content_div.find_all("div", {"id": entry["title_hash"]})) > 0:
+            self.update_article_listing(self.index_html, title, entry)
+
+    # $ blog remove TITLE
+    def remove_article(self, title: str):
+        if title not in self.db['articles']:
+            print(f"Article not found: {title}")
+            return
+
+        entry = self.db['articles'][title]
+
+        if len(self.archive_html.find_all("div", {"id": entry['title_hash']})) > 0:
+            archive_entry_div = self.archive_html.find("div", {"id": entry['title_hash']})
+            archive_entry_div.decompose()
+            self.write_html("../archive.html", self.archive_html)
+
+        # If article has been marked as favorite
+        if len(self.index_html.find_all("div", {"id": entry['title_hash']})) > 0:
+            index_entry_div = self.index_html.find("div", {"id": entry['title_hash']})
+            index_entry_div.decompose()
+            self.write_html("../index.html", self.index_html)
+
+        # Remove assets associated with it
+        os.remove(entry['path'])
+
+        del self.db['articles'][title]
+        if title in self.db['featured']:
+            del self.db['featured'][title]
+
+        self.update_database()
+
+    # $ blog feature TITLE
+    # Like creating a blog article, except the html file for the article is already present
+    def feature_article(self, title: str):
+        if title not in self.db['articles']:
+            print(f"Article not found: {self.title}")
+            return
+
+        title, entry, html = self.insert_entry(title, "", "featured", False)
+        index_html_content_div = self.index_html.find("div", {"id": "content"})
+        index_html_content_div.append(self.create_archive_entry(self.index_html, title, entry))
+        self.write_html("../index.html", self.index_html)
+
     # $ blog list
     def list_articles(self):
         self.list_table("featured")
         self.list_table("articles")
-
