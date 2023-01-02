@@ -1,5 +1,15 @@
 {
     "articles": {
+        "This is a test": {
+            "date": "01-01-2023",
+            "title_hash": "ce114e4501d2f4e2dcea3e17b546f339",
+            "path": "../essays/This_is_a_test.html"
+        },
+        "This is a test (1)": {
+            "date": "01-01-2023",
+            "title_hash": "459f3b8460f614da421bc60050cb12c8",
+            "path": "../essays/This_is_a_test_(1).html"
+        }
     },
     "featured": {},
     "projects_count": 7
