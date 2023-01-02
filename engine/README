@@ -2,13 +2,20 @@ The blog engine
 ----------------
 engine.py is the library for managing the blog.
 blog.py is the interactive cli tool to use the library in engine.py
-blog.sh is a shell script that wraps around blog.py
+blog.sh (blog) is a shell script that wraps around blog.py
+
+Installation
+------------
+- Install dependecies: python3, pip3-python
+- Add path to script to PYTHONPATH: export PYTHONPATH="$HOME/projects/blog/engine"
+- Install python dependencies: pip install -r requirements.txt
+- Add engine/blog to your PATH -> $ export PATH="path to where this repository is stored:PATH"
+- Run! python -m blog
 
 Commands
 --------
 $ blog create FILENAME TITLE
--> The TITLE is actually optional, if not specified, 
-   the FILENAME will be used as essay title.
+-> Create a new blog article and add a link to it in archive.html.
 
 $ blog update FILENAME TITLE
 -> TITLE is used to index the blog article you want to update.

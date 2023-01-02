@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import hashlib
 import re, os
 import requests
+import shutil
 import json
 
 class BlogEngine:
@@ -96,6 +97,23 @@ class BlogEngine:
             self.update_database()
             self.write_html("../index.html", self.index_html)
 
+    def link_img_assets(self, title: str, entry: dict, html: str):
+        username = "aabiji"
+        cached_path = f"/home/{username}/projects/blog/.cached"
+
+        for f in os.listdir(cached_path):
+            if os.path.isfile(f"{cached_path}/{f}") and ".png" in f or ".jpg" in f:
+                extention = f.split(".")[1].strip()
+
+                id = title + f + entry['date']
+                hashed_identifier = hashlib.md5(id.encode("utf-8")).hexdigest()
+                hashed_identifier = f"../assets/imgs/{hashed_identifier}.{extention}"
+                html = html.replace(f, hashed_identifier)
+
+                shutil.copy(f"{cached_path}/{f}", hashed_identifier)
+
+        return html
+
     # If creating_entry=True, the value associated with it's key should be overwritten
     def insert_entry(self, title: str, filename: str, table: str, creating_entry: bool):
         # Resolving conflicts in blog article title
@@ -108,17 +126,18 @@ class BlogEngine:
         title_hash = hashlib.md5(title.encode("utf-8")).hexdigest()
 
         path = f"../essays/{title.replace(' ', '_')}.html"
+        entry = {"date": date, "title_hash": title_hash, "path": path}
+        self.db[table][title] = entry
 
         if filename != "":
             markdown_source = open(filename, "r").read()
             markdown_compiler = markdown.Compiler(markdown_source, 
                 debug_lexer=False, debug_parser=False, prettify=True)
             html = markdown_compiler.compile(base_indent=0)
+            html = self.link_img_assets(title, entry, html)
         else:
             html = ""
 
-        entry = {"date": date, "title_hash": title_hash, "path": path}
-        self.db[table][title] = entry
         self.update_database()
 
         return title, entry, html
