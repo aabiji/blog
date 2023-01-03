@@ -5,12 +5,18 @@
             "title_hash": "ae2f9eb466ede554582db5ed0861fefc",
             "path": "../essays/mark_showcase.html"
         },
-        "Thoughts for 2023.": {
-            "date": "02-01-2023",
-            "title_hash": "c94944da99872b8561bf51be68b91d4f",
-            "path": "../essays/Thoughts_for_2023..html"
+        "Hello world": {
+            "date": "03-01-2023",
+            "title_hash": "3e25960a79dbc69b674cd4ec67a72c62",
+            "path": "../essays/Hello_world.html"
         }
     },
-    "featured": {},
+    "featured": {
+        "Hello world": {
+            "date": "03-01-2023",
+            "title_hash": "3e25960a79dbc69b674cd4ec67a72c62",
+            "path": "../essays/Hello_world.html"
+        }
+    },
     "projects_count": 7
 }
