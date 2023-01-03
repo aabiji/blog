@@ -10,4 +10,5 @@ The essays are under the creative commons liscense, while the source
 code is under the MIT liscense.
 
 P.S: In engine/ , I included a submodule for https://github.com/aabiji/mark.
-So make sure to clone recusively.
+So make sure to clone recusively. Also, it looks like the project is mostly Javascript,
+but that's just highlight.js :)
