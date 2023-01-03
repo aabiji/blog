@@ -21,7 +21,7 @@ class BlogEngine:
         self.template_html = BeautifulSoup(self.template_html_raw, "html.parser")
 
         self.tag_regex = re.compile(r"\s*<.+>")
-        self.indent_regex = re.compile(r"^(\s*)", re.MULTILINE)
+        self.indent_regex = re.compile(r"^(\s*)")
         self.indent = 4
 
     def load_database(self):
@@ -38,9 +38,10 @@ class BlogEngine:
             file.write(json.dumps(self.db, indent=4))
 
     def write_html(self, filepath: str, dom_obj: BeautifulSoup):
-        html = self.indent_regex.sub(r"\1" * self.indent, dom_obj.prettify())
+        html = dom_obj.prettify()
         html = html.split("\n")
 
+        #html = self.indent_regex.sub(r"\1" * self.indent, dom_obj.prettify())
         # Correcting a weird indentation anomality in BeautifulSoup.prettify
         inside_codeblock = False
         for i in range(len(html)):
@@ -50,6 +51,10 @@ class BlogEngine:
                 inside_codeblock = True
             elif "</code>" in line:
                 inside_codeblock = False
+
+            if not inside_codeblock:
+                line = self.indent_regex.sub(r"\1" * self.indent, line)
+                html[i] = line
 
             if not self.tag_regex.match(line) and not inside_codeblock:
                 if not self.tag_regex.match(html[i - 1]) and i > 0:
@@ -83,7 +88,7 @@ class BlogEngine:
 
                 new_project_div = self.index_html.new_tag("div", id="project")
                 link = self.index_html.new_tag("a", href=html_url)
-                link.string = name
+                link.string = f"{name}:"
                 p = self.index_html.new_tag("p")
                 p.string = description
 
@@ -102,15 +107,16 @@ class BlogEngine:
         cached_path = f"/home/{username}/projects/blog/.cached"
 
         for f in os.listdir(cached_path):
-            if os.path.isfile(f"{cached_path}/{f}") and ".png" in f or ".jpg" in f:
+            if os.path.isfile(f"{cached_path}/{f}") and ".md" not in f:
                 extention = f.split(".")[1].strip()
 
-                id = title + f + entry['date']
-                hashed_identifier = hashlib.md5(id.encode("utf-8")).hexdigest()
-                hashed_identifier = f"../assets/imgs/{hashed_identifier}.{extention}"
-                html = html.replace(f, hashed_identifier)
+                new_path = f"../assets/imgs/article_{entry['title_hash']}"
+                if not os.path.exists(new_path):
+                    os.makedirs(new_path)
 
-                shutil.copy(f"{cached_path}/{f}", hashed_identifier)
+                new_path = f"../assets/imgs/article_{entry['title_hash']}/{f}"
+                html = html.replace(f, new_path)
+                shutil.copy(f"{cached_path}/{f}", new_path)
 
         return html
 
@@ -246,6 +252,9 @@ class BlogEngine:
 
         # Remove assets associated with it
         os.remove(entry['path'])
+        media_path = f"../assets/imgs/article_{entry['title_hash']}"
+        if os.path.exists(media_path):
+            os.rmdir(media_path)
 
         del self.db['articles'][title]
         if title in self.db['featured']:

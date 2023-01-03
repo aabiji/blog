@@ -64,28 +64,36 @@ def process_arguments(arguments: list):
 
         if arguments[0] == "remove":
             blog_engine.remove_article(title)
-            print("Article removed successfully.")
 
         elif arguments[0] == "feature":
             blog_engine.feature_article(title)
-            print("Article featured successfully.")
 
     elif len(arguments) == 3:
         filename, title = f"{cache_folder}/{arguments[1]}", arguments[2]
 
         if arguments[0] == "create":
             blog_engine.create_article(filename, title)
-            print("Article created successfully.")
     
         elif arguments[0] == "update":
             blog_engine.update_article(filename, title)
-            print("Article updated successfully.")
 
         cleanup(arguments)    
 
     else:
         help()
-    
+   
+def publish(arguments: list):
+    if arguments[0] != "list":
+        title = arguments[1]
+        if arguments[0] == "create" or arguments[0] == "update":
+            title = arguments[2]
+
+        commit_msg = f"{arguments[0]} {title}"
+        os.system("git add .")
+        os.system(f"git commit -m '{commit_msg}'")
+        os.system("git push -u origin main")
+
 if __name__ == "__main__":
     arguments = sys.argv[1:]
     process_arguments(arguments)
+    publish(arguments)

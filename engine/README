@@ -1,16 +1,22 @@
-The blog engine
-----------------
+The blog engine (TBE)
+---------------------
 engine.py is the library for managing the blog.
-blog.py is the interactive cli tool to use the library in engine.py
-blog.sh (blog) is a shell script that wraps around blog.py
+blog.py cli tool that's a wrapper for engine.py
 
 Installation
 ------------
-- Install dependecies: python3, pip3-python
-- Add path to script to PYTHONPATH: export PYTHONPATH="$HOME/projects/blog/engine"
-- Install python dependencies: pip install -r requirements.txt
-- Add engine/blog to your PATH -> $ export PATH="path to where this repository is stored:PATH"
-- Run! python -m blog
+- Install dependecies 
+- Add path to script to PYTHONPATH (Put it in .bashrc for convenience)
+- Install python dependencies
+- Add engine/blog to your PATH
+
+$ sudo apt install python3, python3-pip git
+$ export PYTHONPATH="$HOME/projects/blog/engine"
+$ pip install -r requirements.txt
+$ export PATH="path to where this repository is stored:PATH"
+
+And run! ( python3 -m blog ... )
+
 
 Commands
 --------
@@ -24,14 +30,14 @@ $ blog update FILENAME TITLE
 $ blog remove TITLE
 -> Deletes the essay's generated html file, removes the blog article's key 
    from the json database, and removes links to the blog article's html in index.html,
-   and archive.html. Also removes assets associated to the article (imgs, etc).
+   and archive.html. Also, it removes assets associated to the article (imgs, etc).
 
 $ blog feature TITLE
 -> This is for blog articles that should be showcased in the index.html
    The blog article should already exist.
 
 $ blog list
--> Lists all the blog articles in blog.json.
+-> Lists all the blog articles in assets/data/blog.json.
 
 
 Blog database (assets/data/blog.json)
@@ -39,7 +45,7 @@ Blog database (assets/data/blog.json)
 Hashmap of blog article metadata                       
 {                                                      
 	"articles": {Title: {Date: "", Path: "", Title_hash: ""}}
-	"favorites": {/* Same as articles */}
+	"featured": {/* Same as articles */}
 	"projects_count": 0 /* Used for updating #projects in index.html
 } 
 
@@ -50,5 +56,5 @@ Hashmap of blog article metadata
 * Title hash used to identify div to decompose/update/favorite
   when removing, featuring and updating blog articles
 * When including assets in a blog article (images, etc), the images
-  are stored in assets/imgs. A md5 hash of the title_hash and the image
-  filename are used to identify the image.
+  are stored in assets/imgs. A directory is created (title_hash) where those images are stored 
+  and referenced.

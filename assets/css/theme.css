@@ -1,11 +1,14 @@
-@font-face {
-	font-family: "DM-Mono";
-	src: url("../fonts/dm-mono.ttf") format("truetype");
+body {
+	font-size : 15px;
+	font-family: "Roboto", sans-serif;
 }
 
-body {
-	font-size : 14px;
-	font-family: "DM-Mono", monospace;
+blockquote {
+	padding : 5px 10px;
+}
+
+ul {
+	list-style-type : square;
 }
 
 .light {
@@ -13,27 +16,36 @@ body {
 	background-color : #f0f1f2;
 }
 
-.dark {
-	color : white !important;
-	background-color : #1f1e1e;
+.light a {
+	color : black !important;
 }
 
-.light a {
-	color : black;
+.light blockquote {
+	border-left : 10px solid #5c5c5c;
+	background-color : #cccccc;
+}
+
+.dark {
+	color : white !important;
+	background-color : #141414;
 }
 
 .dark a {
-	color : white;
+	color : white !important;
+}
+
+.dark blockquote {
+	border-left : 10px solid #5e5e5e;
+	background-color : #454444;
 }
 
 a {
-	font-weight : bold;
 	cursor : pointer;
 	text-decoration : none;
 }
 
 a:hover {
-	color: #10c775 !important;
+	color: #1b83f2 !important;
 }
 
 #navbar {
@@ -53,6 +65,10 @@ a:hover {
 	text-decoration: none;
 }
 
+#navbar a:hover {
+	color: #1b83f2 !important;
+}
+
 #navbar img {
 	max-width: 28px;
 	max-height: 28px;
@@ -63,11 +79,11 @@ a:hover {
 }
 
 #navbar-seperation {
-	width: 70%;
+	width: 73%;
 }
 
 #intro {
-	width : 45%;
+	width : 50%;
 	margin : 0 auto;
 	padding : 20px 15px;
 }
@@ -85,12 +101,13 @@ a:hover {
 }
 
 #intro hr {
-	margin-top : 50px;
+	width : 100%;
+	margin-top : 65px;
 	margin-bottom : 0px;
 }
 
 #content, #projects {
-	width : 45%;
+	width : 50%;
 	margin : 0 auto;
 }
 
@@ -101,6 +118,11 @@ a:hover {
 #projects a {
 	float : left;
 	margin-right : 3%;
+	font-weight : bold;
+}
+
+#projects a:hover {
+	color: #1b83f2 !important;
 }
 
 #copyright {
@@ -114,7 +136,7 @@ a:hover {
 
 #copyright-seperator {
 	margin : 0 auto;
-	width : 45%;
+	width : 50%;
 }
 
 .article {
@@ -126,4 +148,15 @@ a:hover {
 	float : left;
 	color : #878787;
 	margin-right : 3%;
+}
+
+#content img {
+	width : 70%;
+	height : auto;
+	margin-top : 20px;
+	margin-bottom : 20px;
+}
+
+#content a {
+	font-weight : bold;
 }
