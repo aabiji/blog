@@ -13,10 +13,10 @@ Podcasts to revisit:
 - [Yeonmi Park and escaping North Korea](https://www.youtube.com/watch?v=usDqSEKDVsA)
 - Guido van Rossum and Python
 	- [Part 1](https://www.youtube.com/watch?v=ghwaIiE3Nd8)
-	- [And part 2](https://www.youtube.com/watch?v=\-DVyjdw4t9I&t=27s)
+	- [And part 2](https://www.youtube.com/watch?v=-DVyjdw4t9I&t=27s)
 - [John Carmack and Doom](https://www.youtube.com/watch?v=I845O57ZSy4)
 - [Alphago and AlphaZero](https://www.youtube.com/watch?v=uPUEq8d73JI)
-- [George Hotz and self driving cars](https://www.youtube.com/watch?v=iwcYp\-XT7UI)
+- [George Hotz and self driving cars](https://www.youtube.com/watch?v=iwcYp-XT7UI)
 - [Vitalik Buterin and crypto](https://www.youtube.com/watch?v=3x1b_S6Qp2Q)
 - Others I find intriguing
 
@@ -45,7 +45,6 @@ Things I would like to learn:
 
 
 Things I would like to build:
-- Make [mark](https://github.com/aabiji/mark) more robut \- maybe working on token escaping.
 - RSS feed reader \( I actually need this \)
 - A package manager \( Not to dethrone existing ones, but to see how it could be built \)
 - A NES emulator \(  But can it run in Doom ??? \)
