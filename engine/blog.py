@@ -81,6 +81,7 @@ def process_arguments(arguments: list):
 
     else:
         help()
+        sys.exit()
    
 def publish(arguments: list):
     if arguments[0] != "list":
