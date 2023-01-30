@@ -1,22 +1,11 @@
 {
     "articles": {
-        "mark showcase": {
-            "date": "02-01-2023",
-            "title_hash": "ae2f9eb466ede554582db5ed0861fefc",
-            "path": "../essays/mark_showcase.html"
-        },
         "Hello world": {
-            "date": "03-01-2023",
+            "date": "30-01-2023",
             "title_hash": "3e25960a79dbc69b674cd4ec67a72c62",
             "path": "../essays/Hello_world.html"
         }
     },
-    "featured": {
-        "Hello world": {
-            "date": "03-01-2023",
-            "title_hash": "3e25960a79dbc69b674cd4ec67a72c62",
-            "path": "../essays/Hello_world.html"
-        }
-    },
+    "featured": {},
     "projects_count": 7
 }
