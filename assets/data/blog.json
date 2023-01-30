@@ -6,6 +6,12 @@
             "path": "../essays/Hello_world.html"
         }
     },
-    "featured": {},
+    "featured": {
+        "Hello world": {
+            "date": "30-01-2023",
+            "title_hash": "3e25960a79dbc69b674cd4ec67a72c62",
+            "path": "../essays/Hello_world.html"
+        }
+    },
     "projects_count": 7
 }
